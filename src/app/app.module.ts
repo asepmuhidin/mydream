@@ -6,10 +6,16 @@ import { environment} from '../environments/environment';
 import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material.module';
-
+import {DosenService} from './services/dosen.service';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { ServiceComponent } from './service/service.component';
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HomeComponent,
+    AboutComponent,
+    ServiceComponent
   ],
   imports: [
     BrowserModule,
@@ -18,7 +24,7 @@ import {MaterialModule} from './material.module';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence()
   ],
-  providers: [Title],
+  providers: [Title,DosenService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

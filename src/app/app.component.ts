@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Title }  from '@angular/platform-browser';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection,AngularFirestoreDocument } from 'angularfire2/firestore';
+import {DosenService, Dosen} from './services/dosen.service';
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -8,20 +10,37 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+
+export class AppComponent implements OnInit {
   title = 'AleshaGeeks';
-  dosenCollection:AngularFirestoreCollection<any>=this.afs.collection('dosen');
-  dosens=this.dosenCollection.valueChanges();
+  dosen :Observable<any>;
+  dosenDoc:AngularFirestoreDocument<any>;
 
-constructor(private afs:AngularFirestore,private titleService:Title){
+  listDosen:Observable<any[]>;
+  dosenCollection:AngularFirestoreCollection<any[]>;
+  
+  snapshot:any;
+  //dosenCollection:AngularFirestoreCollection<any>=this.afs.collection('dosen')l
+  //dosens=this.dosenCollection.valueChanges();
 
-}
-ngOnInit(){
+constructor(private afs:AngularFirestore,private titleService:Title){}
+
+ngOnInit(){  
   this.setTitle(this.title);
+  this.dosenDoc=this.afs.doc<Dosen>('dosen/ZObRW4KqjflBDmloBaTh')
+  this.dosen=this.dosenDoc.valueChanges().map(function(key){
+    console.log(key);
+  });
+  
+  console.log(this.dosen);
 }
 
 public setTitle(newTitle:string){
   this.titleService.setTitle(newTitle);
 }
 
+}
+export interface Dosen{
+  fname:string,
+  lname:string
 }
